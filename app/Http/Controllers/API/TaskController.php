@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,11 @@ class TaskController extends Controller
 
     public function index()
     {
-        $task = Task::all();
+        $tasks = Task::all();
         return response([
-            'tasks' => TaskResource::collection($task), 'message' => 'Retrieved Successfully'
+            'tasks' => TaskResource::collection($tasks), 'message' => 'Retrieved Successfully'
         ], 200);
+    
     }
 
     public function store(Request $request)
