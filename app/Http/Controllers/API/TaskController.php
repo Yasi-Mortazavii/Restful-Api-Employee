@@ -3,30 +3,39 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $task = Task::all();
+        return response([
+            'tasks' => TaskResource::collection($task), 'message' => 'Retrieved Successfully'
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $data      = $request->all();
+        $validator = validator::make($data, [
+            'name'     =>  'required|max:225',
+            'comment'    =>  'required|string',
+            'state' =>  'required|boolean',
+            'time' =>  'required|date',
+        ]);
+        if($validator->fails()){
+            return response(['error' => $validator->errors(), 'Validation Errors.']);
+        }
+        $task = Task::create($data);
+        return response([
+            'task'    => new TaskResource($task),
+            'message' => 'Created Successfuly',
+        ], 201);
+
     }
 
     /**
