@@ -18,9 +18,14 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->boolean('isAdmin')->default(0)->nullable();
-            
+            $table->unsignedInteger('task_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->foreign('task_id')
+                  ->references('id')->on('task')->onDelete('cascade');
+
+                  
             $table->rememberToken();
             $table->timestamps();
         });

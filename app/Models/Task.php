@@ -15,5 +15,10 @@ class Task extends Model
         'state',
         'time',
     ];
+
+    public function user(){
+
+        return $this->belongsTo(User::class);
+    }
  
 }
