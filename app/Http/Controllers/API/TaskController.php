@@ -7,6 +7,7 @@ use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -17,7 +18,7 @@ class TaskController extends Controller
 
     public function index()
     {
-    
+        // $users = Auth::user()->id;
         $tasks = Task::all();
         return response([
             'tasks' => TaskResource::collection($tasks), 'message' => 'Retrieved Successfully'
