@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -12,7 +13,7 @@ class AuthController extends Controller
 
         $validatedData = $request->validate([
             'name'     =>  'required|max:225',
-            'email'    =>  'required|unique:users',
+            'email'    =>  'email|required|unique:users',
             'password' =>  'required|confirmed',
         ]);
 
@@ -24,5 +25,20 @@ class AuthController extends Controller
             'accessToken'  => $accessToken
         ], 201);
     }
-    
+    public function login(Request $request){
+        $loginData = $request->validate([
+            'email'    =>  'email|required|unique:users',
+            'password' =>  'required|confirmed',
+        ]);
+
+        if(!auth()->attempt($loginData)){
+            return response(['message' => 'This User dose not exist. Check your details', 400]);
+        }
+
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        return response([
+            'user'        => auth()->user(),
+            'accessToken' => $accessToken
+        ]);
+    }
 }
