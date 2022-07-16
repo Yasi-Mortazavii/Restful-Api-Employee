@@ -38,15 +38,13 @@ class TaskController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Task $task)
     {
-        //
+        return response([
+            'task'    => new TaskResource($task),
+            'message' => 'Retrivied Successfuly',
+        ], 200);
     }
 
     /**
