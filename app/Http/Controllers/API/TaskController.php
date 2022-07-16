@@ -47,24 +47,16 @@ class TaskController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Task $task)
     {
-        //
+        $task->update($request->all());
+        return response([
+            'task'    => new TaskResource($task),
+            'message' => 'Updated Successfuly',
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Task $task)
     {
         //
