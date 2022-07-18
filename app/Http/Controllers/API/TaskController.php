@@ -84,8 +84,15 @@ class TaskController extends Controller
        
 
     }
-   
+    public function sort(){
+        $user = Auth::user();
+        if($user->is_admin == 1){
+            $tasks = Task::orderBy("state", "desk")->get();
+            return response([
+                'tasks' => TaskResource::collection($tasks), 'message' => 'Retrieved Successfully'
+            ], 200);     
+        }
 
 
-    }
+    
 }

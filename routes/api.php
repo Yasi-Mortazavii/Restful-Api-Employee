@@ -26,3 +26,4 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::apiResource('tasks', TaskController::class)->middleware('auth:api');
 Route::get('search/{time}',[TaskController::class, 'search']);
+Route::get('sort',[TaskController::class, 'sort']);
