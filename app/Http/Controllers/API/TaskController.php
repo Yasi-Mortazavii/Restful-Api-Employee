@@ -18,12 +18,12 @@ class TaskController extends Controller
 
     public function index()
     {
-        // $users = Auth::user()->id;
+
         $tasks = Task::all();
         return response([
             'tasks' => TaskResource::collection($tasks), 'message' => 'Retrieved Successfully'
         ], 200);
-    
+
     }
 
     public function store(Request $request)
@@ -71,5 +71,21 @@ class TaskController extends Controller
         return response([
             'message' => ' Data Deleted',
         ], 200);
+
+    }
+    public function search($time){
+        $user = Auth::user();
+        if($user->is_admin == 1){
+            $tasks = Task::where("time", "like", "%".$time."%")->get();
+            return response([
+                'tasks' => TaskResource::collection($tasks), 'message' => 'Retrieved Successfully'
+            ], 200);     
+        }
+       
+
+    }
+   
+
+
     }
 }
